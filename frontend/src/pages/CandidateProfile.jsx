@@ -118,24 +118,26 @@ function CandidateProfile() {
         </div>
 
         <div className="mt-6 pt-5 border-t border-gray-100">
-          <p className="text-xs text-gray-400 uppercase mb-3">Resume</p>
+  <p className="text-xs text-gray-400 uppercase mb-3">Resume</p>
           {candidate.resumeUrl ? (
-            <div>
-              <div className="flex items-center gap-4 mb-3">
-                <span className="text-sm font-medium text-gray-700">PDF Resume</span>
-                <a href={BASE_URL + candidate.resumeUrl}
-                  target="_blank" rel="noreferrer"
-                  className="text-xs text-blue-600 hover:underline">
-                  Open in new tab
-                </a>
+    <div>
+      <div className="flex items-center gap-4 mb-3">
+        <span className="text-sm font-medium text-gray-700">PDF Resume</span>
+                <a href={candidate.resumeUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="text-xs text-blue-600 hover:underline"
+        >
+          Open in new tab
+        </a>
                 <label className="text-xs text-gray-500 cursor-pointer underline hover:text-gray-700">
-                  Replace
-                  <input type="file" accept=".pdf" onChange={handleResumeUpload} className="hidden" />
-                </label>
-              </div>
+          Replace
+          <input type="file" accept=".pdf" onChange={handleResumeUpload} className="hidden" />
+        </label>
+      </div>
               <div className="border border-gray-200 rounded-xl overflow-hidden">
                 <iframe
-                  src={BASE_URL + candidate.resumeUrl}
+                  src={candidate.resumeUrl}
                   className="w-full"
                   style={{ height: '600px' }}
                   title="Resume"
