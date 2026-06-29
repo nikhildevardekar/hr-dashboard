@@ -12,7 +12,7 @@ const app = express()
 
 app.use(cors({
   origin: [
-    'https://hr-dashboard-nikhil.vercel.app',
+    'https://hr-dashboard-ftc6xbgfy-nikhildevardekar11.vercel.app',
     'http://localhost:5173'
   ]
 }))
