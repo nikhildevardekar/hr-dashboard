@@ -9,7 +9,14 @@ const authRoutes = require('./routes/auth')
 const interviewRoutes = require('./routes/interviews')
 
 const app = express()
-app.use(cors())
+
+app.use(cors({
+  origin: [
+    'https://hr-dashboard-nikhil.vercel.app',
+    'http://localhost:5173'
+  ]
+}))
+
 app.use(express.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
