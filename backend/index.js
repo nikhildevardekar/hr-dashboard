@@ -11,10 +11,9 @@ const interviewRoutes = require('./routes/interviews')
 const app = express()
 
 app.use(cors({
-  origin: [
-    'https://hr-dashboard-ftc6xbgfy-nikhildevardekar11.vercel.app',
-    'http://localhost:5173'
-  ]
+  origin: '*',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
 app.use(express.json())
