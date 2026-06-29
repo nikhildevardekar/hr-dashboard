@@ -1,21 +1,21 @@
 import { useState } from 'react'
-import axios from 'axios'
+import api from '../api'
 
 function Login({ onLogin }) {
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
 
-const handleLogin = () => {
-  setError('')
-  axios.post('http://localhost:5000/api/auth/login', form)
-    .then(res => {
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('name', res.data.name)
-      localStorage.setItem('role', res.data.role)
-      onLogin(res.data.name, res.data.role)
-    })
-    .catch(() => setError('Invalid email or password'))
-}
+  const handleLogin = () => {
+    setError('')
+    api.post('/api/auth/login', form)
+      .then(res => {
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('name', res.data.name)
+        localStorage.setItem('role', res.data.role)
+        onLogin(res.data.name, res.data.role)
+      })
+      .catch(() => setError('Invalid email or password'))
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
