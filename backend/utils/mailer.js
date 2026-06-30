@@ -1,25 +1,6 @@
-const nodemailer = require('nodemailer')
+const { Resend } = require('resend')
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-})
-
-transporter.verify((error, success) => {
-  if (error) {
-    console.log('Mailer verification failed:', error.message)
-  } else {
-    console.log('Mailer is ready to send emails')
-  }
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const sendStatusEmail = async (candidateEmail, candidateName, status) => {
   const messages = {
@@ -32,8 +13,8 @@ const sendStatusEmail = async (candidateEmail, candidateName, status) => {
   const message = messages[status]
   if (!message) return
 
-  return transporter.sendMail({
-    from: `"HR Dashboard" <${process.env.EMAIL_USER}>`,
+  return resend.emails.send({
+    from: 'HR Dashboard <onboarding@resend.dev>',
     to: candidateEmail,
     subject: `Application Update — ${status}`,
     html: `
@@ -47,8 +28,8 @@ const sendStatusEmail = async (candidateEmail, candidateName, status) => {
 }
 
 const sendInterviewEmail = async (candidateEmail, candidateName, date, time, mode, interviewer) => {
-  return transporter.sendMail({
-    from: `"HR Dashboard" <${process.env.EMAIL_USER}>`,
+  return resend.emails.send({
+    from: 'HR Dashboard <onboarding@resend.dev>',
     to: candidateEmail,
     subject: `Interview Scheduled — ${date} at ${time}`,
     html: `
