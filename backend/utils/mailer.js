@@ -1,10 +1,23 @@
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
+  },
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
+})
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.log('Mailer verification failed:', error.message)
+  } else {
+    console.log('Mailer is ready to send emails')
   }
 })
 
@@ -19,7 +32,7 @@ const sendStatusEmail = async (candidateEmail, candidateName, status) => {
   const message = messages[status]
   if (!message) return
 
-  await transporter.sendMail({
+  return transporter.sendMail({
     from: `"HR Dashboard" <${process.env.EMAIL_USER}>`,
     to: candidateEmail,
     subject: `Application Update — ${status}`,
@@ -34,7 +47,7 @@ const sendStatusEmail = async (candidateEmail, candidateName, status) => {
 }
 
 const sendInterviewEmail = async (candidateEmail, candidateName, date, time, mode, interviewer) => {
-  await transporter.sendMail({
+  return transporter.sendMail({
     from: `"HR Dashboard" <${process.env.EMAIL_USER}>`,
     to: candidateEmail,
     subject: `Interview Scheduled — ${date} at ${time}`,
@@ -45,22 +58,10 @@ const sendInterviewEmail = async (candidateEmail, candidateName, date, time, mod
         <p style="color:#4b5563;line-height:1.6">Your interview has been scheduled. Here are the details:</p>
         <div style="background:#f9fafb;border-radius:8px;padding:16px;margin:16px 0">
           <table style="width:100%;font-size:14px;color:#374151">
-            <tr>
-              <td style="padding:6px 0;color:#6b7280;width:120px">Date</td>
-              <td style="padding:6px 0;font-weight:600">${date}</td>
-            </tr>
-            <tr>
-              <td style="padding:6px 0;color:#6b7280">Time</td>
-              <td style="padding:6px 0;font-weight:600">${time}</td>
-            </tr>
-            <tr>
-              <td style="padding:6px 0;color:#6b7280">Mode</td>
-              <td style="padding:6px 0;font-weight:600">${mode}</td>
-            </tr>
-            <tr>
-              <td style="padding:6px 0;color:#6b7280">Interviewer</td>
-              <td style="padding:6px 0;font-weight:600">${interviewer}</td>
-            </tr>
+            <tr><td style="padding:6px 0;color:#6b7280;width:120px">Date</td><td style="padding:6px 0;font-weight:600">${date}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">Time</td><td style="padding:6px 0;font-weight:600">${time}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">Mode</td><td style="padding:6px 0;font-weight:600">${mode}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">Interviewer</td><td style="padding:6px 0;font-weight:600">${interviewer}</td></tr>
           </table>
         </div>
         <p style="color:#4b5563;line-height:1.6">Please be available on time. Good luck!</p>
