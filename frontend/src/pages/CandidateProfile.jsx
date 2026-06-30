@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../api'
 
-const BASE_URL = 'https://hr-dashboard-api-82b4.onrender.com'
-
 const statusColors = {
   Applied: 'bg-blue-100 text-blue-700',
   Shortlisted: 'bg-yellow-100 text-yellow-700',
@@ -118,23 +116,16 @@ function CandidateProfile() {
         </div>
 
         <div className="mt-6 pt-5 border-t border-gray-100">
-  <p className="text-xs text-gray-400 uppercase mb-3">Resume</p>
+          <p className="text-xs text-gray-400 uppercase mb-3">Resume</p>
           {candidate.resumeUrl ? (
-    <div>
-      <div className="flex items-center gap-4 mb-3">
-        <span className="text-sm font-medium text-gray-700">PDF Resume</span>
-                <a href={candidate.resumeUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="text-xs text-blue-600 hover:underline"
-        >
-          Open in new tab
-        </a>
+            <div>
+              <div className="flex items-center gap-4 mb-3">
+                <span className="text-sm font-medium text-gray-700">PDF Resume</span>
                 <label className="text-xs text-gray-500 cursor-pointer underline hover:text-gray-700">
-          Replace
-          <input type="file" accept=".pdf" onChange={handleResumeUpload} className="hidden" />
-        </label>
-      </div>
+                  Replace
+                  <input type="file" accept=".pdf" onChange={handleResumeUpload} className="hidden" />
+                </label>
+              </div>
               <div className="border border-gray-200 rounded-xl overflow-hidden">
                 <iframe
                   src={candidate.resumeUrl}
