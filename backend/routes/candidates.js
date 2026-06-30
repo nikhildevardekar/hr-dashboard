@@ -84,6 +84,24 @@ router.delete('/:id', auth, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-})
 
+})
+router.patch('/:id', auth, async (req, res) => {
+  try {
+    const updated = await Candidate.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    )
+    if (req.body.status) {
+      console.log('Attempting to send email to:', updated.email, 'for status:', req.body.status)
+      sendStatusEmail(updated.email, updated.name, req.body.status)
+        .then(() => console.log('Email sent successfully!'))
+        .catch(err => console.log('EMAIL FAILED:', err.message))
+    }
+    res.json(updated)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
 module.exports = router
